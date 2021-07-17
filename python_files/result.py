@@ -1,3 +1,4 @@
+# Commented by aditya pachore
 import sys
 from PyQt5.QtWidgets import QButtonGroup, QDialog, QApplication
 from PyQt5.uic import loadUi
