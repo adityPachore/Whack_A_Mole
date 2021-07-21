@@ -118,8 +118,8 @@ def insert_data(name, uname, email, pass1, security_ques, answer):
     print("Inserting")
     mydatabase = Database()
     print(mydatabase.Query_insert(
-        "INSERT INTO users (username, name, email, password, security_question, security_answer) VALUES (%s, %s, %s, %s, %s, %s)",
-        (uname, name, email, pass1, security_ques, answer)), "record inserted.")
+        "INSERT INTO users (username, name, email, password, security_question, security_answer, total_score, highscore) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+        (uname, name, email, pass1, security_ques, answer, '0', '0')), "record inserted.")
     print(mydatabase.Query_insert(
         "INSERT INTO levels_and_skins (username, e1, e2, e3, m1,m2,m3,h1,h2,h3,s1,s2,s3,s4,s5,s6,s7,s8,s9) VALUES (%s, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0)",
         (uname,)), "record inserted.")
@@ -285,7 +285,6 @@ class Forgotpassword(QDialog):
         self.f_continue.setStyleSheet(
             "QPushButton{font: 16pt \"Arial Rounded MT Bold\";\npadding:15px;\nbackground-color:green;\ncolor:white;\nborder-radius:20px;}\nQPushButton:hover{\nborder:1px solid white;\nbackground-color:#03C227;}")
         self.f_continue.clicked.connect(self.continueto_sec_check)
-        # self.f_goto_otp.clicked.connect(self.goto_otpframe)
 
     def gotologin(self):
         self.log = Login()
@@ -315,12 +314,6 @@ class Forgotpassword(QDialog):
 
     def enableme(self):
         self.f_continue.setEnabled(True)
-
-    # def goto_otpframe(self):
-    #     from OTP_frame import OTP_frame
-    #     self.o_window=OTP_frame()
-    #     self.o_window.show()
-    #     self.close()
 
 
 class Forgotpassword_sec_check(QDialog):
@@ -379,12 +372,10 @@ class Forgotpassword_sec_check(QDialog):
         password = mydatabase.Query_fetchone("SELECT password FROM users WHERE username = %s", (str(username),))[0]
         print(password)
         msg = EmailMessage()
-        msg['Subject'] = 'Password Reset at Whack A Mole'
+        msg['Subject'] = 'Whack A Mole Game'
         msg['From'] = 'Whack A Mole Team'
         msg['To'] = email_id
-        # msg.set_content("Hello, your password is 'omkar@123'.")
         msg.set_content("Hello, your password is " + "'" + password + "'" + ".")
-
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.login("gamewhackamole@gmail.com", "whackamole@123")
         server.send_message(msg)
